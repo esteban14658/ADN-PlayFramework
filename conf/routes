@@ -1,0 +1,24 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api/jugadores              infraestructura.src.main.java.com.ceiba.jugador.controlador.ConsultaControladorJugador.listar()
+GET     /api/jugadores/equipo              infraestructura.src.main.java.com.ceiba.jugador.controlador.ConsultaControladorJugador.obtenerEquipo(request:Request)
+GET     /api/jugadores/jugador/:documento              infraestructura.src.main.java.com.ceiba.jugador.controlador.ConsultaControladorJugador.obtenerPorDocumento(documento)
+GET     /api/jugadores/categoria/:fecha              infraestructura.src.main.java.com.ceiba.jugador.controlador.ConsultaControladorJugador.listarPorCategoria(fecha)
+GET     /api/jugadores/asistencia              infraestructura.src.main.java.com.ceiba.jugador.controlador.ConsultaControladorJugador.listarJugadoresSinAsistencia()
+POST    /api/jugadores              infraestructura.src.main.java.com.ceiba.jugador.controlador.ComandoControladorJugador.insertar(request:Request)
+PUT    /api/jugadores/:id              infraestructura.src.main.java.com.ceiba.jugador.controlador.ComandoControladorJugador.actualizar(request:Request, id)
+DELETE    /api/jugadores/:id              infraestructura.src.main.java.com.ceiba.jugador.controlador.ComandoControladorJugador.eliminar(id)
+
+GET     /api/facturas              infraestructura.src.main.java.com.ceiba.factura.controlador.ConsultaControladorFactura.listar()
+GET     /api/facturas/factura              infraestructura.src.main.java.com.ceiba.factura.controlador.ConsultaControladorFactura.listarJugadorSinFactura()
+POST    /api/facturas              infraestructura.src.main.java.com.ceiba.factura.controlador.ComandoControladorFactura.insertar(request:Request)
+DELETE    /api/facturas/:id              infraestructura.src.main.java.com.ceiba.factura.controlador.ComandoControladorFactura.eliminar(id)
+
+GET    /api/asistencias            infraestructura.src.main.java.com.ceiba.asistencia.controlador.ConsultaControladorAsistencia.listar()
+POST    /api/asistencias            infraestructura.src.main.java.com.ceiba.asistencia.controlador.ComandoControladorAsistencia.insertar(request:Request)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
