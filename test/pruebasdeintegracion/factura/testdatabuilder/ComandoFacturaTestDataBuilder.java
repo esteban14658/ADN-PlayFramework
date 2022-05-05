@@ -23,7 +23,7 @@ public class ComandoFacturaTestDataBuilder {
         valor = Long.valueOf(100000);
         fechaIngreso = LocalDate.parse("2022-03-09");
         fechaCaducidad = LocalDate.parse("2022-06-09");
-        jugador = new Jugador(faker.random().nextLong(50),faker.random().nextLong(999999999), "Juanito", "Perez", LocalDate.now(),
+        jugador = new Jugador(4L, 1009876543L, "Juanito", "Perez", LocalDate.now(),
                 (float) 45.6, (float) 1.65, "Portero", "Derecho");
         estado = 1;
         descripcion = "Tres meses";
