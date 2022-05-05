@@ -3,8 +3,6 @@ package pruebasdeintegracion.jugador.controlador;
 import aplicacion.src.main.java.com.ceiba.jugador.comando.ComandoJugador;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import persistencia.BaseDeDatos;
 import play.Application;
@@ -34,7 +32,7 @@ public class ComandoControladorJugadorTest extends WithApplication {
     }
 
     @Test
-    public void registrarJugador(){
+    public void registrarJugador() {
         ComandoJugador comandoJugador = new ComandoJugadorTestDataBuilder().build();
         Http.RequestBuilder request = Helpers.fakeRequest()
                 .method(POST)
@@ -42,6 +40,20 @@ public class ComandoControladorJugadorTest extends WithApplication {
                 .uri("/api/jugadores");
         Result result = route(app, request);
         assertEquals(CREATED, result.status());
+    }
+
+    @Test
+    public void deberiaActualizarUnJugador() {
+        Long idJugador = 46L;
+        ComandoJugador comandoJugador = new ComandoJugadorTestDataBuilder().build();
+        comandoJugador.setDocumento(10293822L);
+        comandoJugador.setId(idJugador);
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(PUT)
+                .bodyJson(Json.toJson(comandoJugador))
+                .uri("/api/jugadores/46");
+        Result result = route(app, request);
+        assertEquals(OK, result.status());
     }
 }
 

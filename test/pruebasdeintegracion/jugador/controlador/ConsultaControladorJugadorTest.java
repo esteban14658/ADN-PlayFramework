@@ -1,42 +1,82 @@
 package pruebasdeintegracion.jugador.controlador;
 
-import org.junit.Before;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoFiltro;
+import org.junit.Test;
+import persistencia.BaseDeDatos;
+import play.Application;
 import play.db.Database;
-import play.db.Databases;
-import play.db.evolutions.Evolution;
-import play.db.evolutions.Evolutions;
+import play.inject.guice.GuiceApplicationBuilder;
+import play.libs.Json;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.test.Helpers;
+import play.test.WithApplication;
 
-import javax.inject.Inject;
 
-public class ConsultaControladorJugadorTest {
+import static org.junit.Assert.*;
+import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.GET;
+import static play.test.Helpers.route;
 
-    @Inject
-    Database database;
+public class ConsultaControladorJugadorTest extends WithApplication {
 
-    @Before
-    public void setUp() throws Exception {
-        database = Databases.createFrom(
-                "db-test",
-                "org.h2.Driver",
-                "jdbc:h2:mem:test;MODE=PostgreSQL"
-        );
-        Evolutions.applyEvolutions(database, Evolutions.forDefault(
-                new Evolution(
-                        1,
-                        "CREATE TABLE jugador (\n" +
-                                " id SERIAL,\n" +
-                                " documento INT NOT NULL unique,\n" +
-                                " nombre VARCHAR(40) NOT NULL,\n" +
-                                " apellido VARCHAR(40) NOT NULL,\n" +
-                                " fecha_nacimiento DATE NOT NULL,\n" +
-                                " peso FLOAT NOT NULL,\n" +
-                                " altura FLOAT NOT NULL,\n" +
-                                " posicion VARCHAR(20) NOT NULL,\n" +
-                                " pie_habil VARCHAR(20) NOT NULL,\n" +
-                                " PRIMARY KEY (id)\n" +
-                                ");",
-                        "DROP TABLE jugador"
-                )
-        ));
+    private Config config;
+    private Database db;
+
+    @Override
+    protected Application provideApplication() {
+        db = new BaseDeDatos().getDb();
+        config = ConfigFactory.load("application");
+        return new GuiceApplicationBuilder().build();
+    }
+
+    @Test
+    public void deberiaListarJugadores() {
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(GET)
+                .uri("/api/jugadores");
+        Result result = route(app, request);
+        assertTrue(result.body().contentLength().isPresent());
+    }
+
+    @Test
+    public void deberiaListarJugadoresSinAsistenciaHoy() {
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(GET)
+                .uri("/api/jugadores/asistencia");
+        Result result = route(app, request);
+        assertTrue(result.body().contentLength().isPresent());
+    }
+
+    @Test
+    public void deberiaListarPorCategoria() {
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(GET)
+                .uri("/api/jugadores/categoria/2022");
+        Result result = route(app, request);
+        assertTrue(result.body().contentLength().isPresent());
+    }
+
+    @Test
+    public void deberiaListarElEquipo() {
+        DtoFiltro dtoFiltro = new DtoFiltro("4", "4", "2");
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(GET)
+                .bodyJson(Json.toJson(dtoFiltro))
+                .uri("/api/jugadores/equipo");
+        Result result = route(app, request);
+        assertTrue(result.body().contentLength().isPresent());
+    }
+
+    @Test
+    public void deberiaObtenerUnJugadorPorElDocumento() {
+        String documento = "1010101010";
+        Http.RequestBuilder request = Helpers.fakeRequest()
+                .method(GET)
+                .uri("/api/jugadores/jugador/" + documento);
+        Result result = route(app, request);
+        assertEquals(OK, result.status());
     }
 }
