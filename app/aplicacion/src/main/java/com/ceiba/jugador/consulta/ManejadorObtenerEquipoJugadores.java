@@ -2,7 +2,6 @@ package aplicacion.src.main.java.com.ceiba.jugador.consulta;
 
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoFiltro;
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoJugador;
-import dominio.src.main.java.com.ceiba.jugador.puerto.dao.DaoJugador;
 import dominio.src.main.java.com.ceiba.jugador.servicio.ServicioObtenerEquipo;
 
 import javax.inject.Inject;

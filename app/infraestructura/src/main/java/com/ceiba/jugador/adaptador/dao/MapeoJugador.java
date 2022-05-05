@@ -11,17 +11,17 @@ public class MapeoJugador {
 
     public DtoJugador mapRow(ResultSet rs) throws SQLException {
 
-        DtoJugador record = new DtoJugador();
-        record.setId(rs.getLong("id"));
-        record.setDocumento(rs.getLong("documento"));
-        record.setNombre(rs.getString("nombre"));
-        record.setApellido(rs.getString("apellido"));
-        record.setFechaNacimiento(extraerLocalDate(rs, "fecha_nacimiento"));
-        record.setPeso(rs.getFloat("peso"));
-        record.setAltura(rs.getFloat("altura"));
-        record.setPosicion(rs.getString("posicion"));
-        record.setPieHabil(rs.getString("pie_habil"));
-        return record;
+        DtoJugador dtoJugador = new DtoJugador();
+        dtoJugador.setId(rs.getLong("id"));
+        dtoJugador.setDocumento(rs.getLong("documento"));
+        dtoJugador.setNombre(rs.getString("nombre"));
+        dtoJugador.setApellido(rs.getString("apellido"));
+        dtoJugador.setFechaNacimiento(extraerLocalDate(rs, "fecha_nacimiento"));
+        dtoJugador.setPeso(rs.getFloat("peso"));
+        dtoJugador.setAltura(rs.getFloat("altura"));
+        dtoJugador.setPosicion(rs.getString("posicion"));
+        dtoJugador.setPieHabil(rs.getString("pie_habil"));
+        return dtoJugador;
     }
 
     private LocalDate extraerLocalDate(ResultSet resultSet, String label) throws SQLException {

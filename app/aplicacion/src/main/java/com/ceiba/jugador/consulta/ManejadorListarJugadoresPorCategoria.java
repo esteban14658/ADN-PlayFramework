@@ -1,6 +1,5 @@
 package aplicacion.src.main.java.com.ceiba.jugador.consulta;
 
-import dominio.src.main.java.com.ceiba.asistencia.puerto.dao.DaoAsistencia;
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoJugador;
 import dominio.src.main.java.com.ceiba.jugador.puerto.dao.DaoJugador;
 

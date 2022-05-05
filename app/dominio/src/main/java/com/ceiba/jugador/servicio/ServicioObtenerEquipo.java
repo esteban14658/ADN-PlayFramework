@@ -36,20 +36,17 @@ public class ServicioObtenerEquipo {
         List<DtoJugador> equipo = new ArrayList<>();
         for (int i = 0; i < keys.length ; i++){
             List<DtoJugador> prueba = obtenerJugadores(posiciones[i], keys[i]);
-            prueba.stream().forEach((x)->
-                    equipo.add(x)
+            prueba.stream().forEach(
+                    equipo::add
             );
         }
-        CompletionStage<List<DtoJugador>> completionStage = CompletableFuture.completedFuture(equipo);
-        return completionStage;
+        return CompletableFuture.completedFuture(equipo);
     }
 
     @SneakyThrows
     private List<DtoJugador> obtenerJugadores(String posicion, Long cantidad) {
         List<DtoJugador> jugadores = this.daoJugador.listarPorPosicion(posicion)
-                .thenApplyAsync(r -> {
-                    return r;
-                })
+                .thenApplyAsync(r -> r)
                 .toCompletableFuture().get();
         List<Integer> registroObtenido = new ArrayList<>();
         List<DtoJugador> resultado = new ArrayList<>();
@@ -73,9 +70,7 @@ public class ServicioObtenerEquipo {
     @SneakyThrows
     private int cantidadDeLista(String posicion){
         return this.daoJugador.listarPorPosicion(posicion)
-                .thenApplyAsync(r -> {
-                    return r;
-                })
+                .thenApplyAsync(r -> r)
                 .toCompletableFuture().get().size();
     }
 

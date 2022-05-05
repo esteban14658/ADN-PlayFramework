@@ -44,14 +44,14 @@ public class ComandoControladorJugador extends Controller {
     public CompletionStage<Result> actualizar(Http.Request request, String id){
         JsonNode json = request.body().asJson();
         final ComandoJugador jugador = Json.fromJson(json, ComandoJugador.class);
-        return this.manejadorActualizarJugador.ejecutar(jugador, id).thenApplyAsync(res -> {
-            return ok();
-        }, ec.current());
+        return this.manejadorActualizarJugador.ejecutar(jugador, id).thenApplyAsync(res ->
+            ok()
+        , ec.current());
     }
 
     public CompletionStage<Result> eliminar(String id){
-        return this.manejadorEliminarJugador.ejecutar(Long.parseLong(id)).thenApplyAsync(res -> {
-            return noContent();
-        }, ec.current());
+        return this.manejadorEliminarJugador.ejecutar(Long.parseLong(id)).thenApplyAsync(res ->
+            noContent()
+        , ec.current());
     }
 }

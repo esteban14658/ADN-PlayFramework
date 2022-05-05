@@ -32,10 +32,10 @@ public class ServicioCrearAsistencia {
     @SneakyThrows
     private void validarExistenciaJugador(Asistencia asistencia) {
         Boolean existe = this.repositorioJugador.existePorId(asistencia.getJugador().getId())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (!existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.FALSE.equals(existe)){
             throw new NoSeEncuentraExcepcion(EL_JUGADOR_NO_SE_ENCUENTRA_REGISTRADO);
         }
     }
@@ -43,10 +43,10 @@ public class ServicioCrearAsistencia {
     @SneakyThrows
     private void validarAsistenciaDeHoy(Asistencia asistencia) {
         Boolean existe = this.repositorioAsistencia.registroDiario(asistencia.getJugador().getId())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.TRUE.equals(existe)){
             throw new DuplicidadExcepcion(NO_SE_PUEDE_REGISTRAR_NUEVAMENTE_HOY);
         }
     }

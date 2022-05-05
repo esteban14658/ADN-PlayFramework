@@ -25,11 +25,11 @@ public class ServicioEliminarFactura {
     @SneakyThrows
     private void validarExistenciaPrevia(Long id){
         Boolean existe = this.repositorioFactura.existePorId(id)
-                .thenApplyAsync(r -> {
-                    return r;
-                })
+                .thenApplyAsync(r ->
+                    r
+                )
                 .toCompletableFuture().get();
-        if (!existe){
+        if (Boolean.FALSE.equals(existe)){
             throw new NoSeEncuentraExcepcion(NO_EXISTE_UNA_FACTURA_CON_DICHO_ID);
         }
     }

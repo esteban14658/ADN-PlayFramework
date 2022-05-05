@@ -6,9 +6,6 @@ import excepciones.DuplicidadExcepcion;
 import lombok.SneakyThrows;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class ServicioCrearJugador {
@@ -30,10 +27,10 @@ public class ServicioCrearJugador {
     @SneakyThrows
     private void validarExistenciaPrevia(Jugador jugador) {
         Boolean existe = this.repositorioJugador.existePorDocumento(jugador.getDocumento())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.TRUE.equals(existe)){
             throw new DuplicidadExcepcion(EL_JUGADOR_YA_EXISTE_EN_EL_SISTEMA);
         }
     }

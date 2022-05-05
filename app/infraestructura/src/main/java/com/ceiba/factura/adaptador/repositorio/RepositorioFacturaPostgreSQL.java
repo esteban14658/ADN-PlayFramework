@@ -2,6 +2,7 @@ package infraestructura.src.main.java.com.ceiba.factura.adaptador.repositorio;
 
 import dominio.src.main.java.com.ceiba.factura.modelo.entidad.Factura;
 import dominio.src.main.java.com.ceiba.factura.puerto.repositorio.RepositorioFactura;
+import excepciones.MalaPeticionExcepcion;
 import persistencia.DatabaseExecutionContext;
 import play.db.Database;
 
@@ -26,12 +27,12 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
     public CompletionStage<Long> crear(Factura factura) {
         return CompletableFuture.supplyAsync(
                 () -> {
-                    String SQL = "INSERT INTO public.factura(" +
+                    String sql = "INSERT INTO public.factura(" +
                             "valor, fecha_ingreso, fecha_caducidad, jugador, estado, descripcion) " +
                             "VALUES (?, ?, ?, ?, ?, ?)";
                     Long id = 0L;
                     try (Connection connection = db.getConnection()){
-                        PreparedStatement stmt = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+                        PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                         stmt.setLong(1, factura.getValor());
                         stmt.setTimestamp(2, convertir(factura.getFechaIngreso()));
                         stmt.setTimestamp(3, convertir(factura.getFechaCaducidad()));
@@ -41,16 +42,13 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
                         int affectedRows = stmt.executeUpdate();
 
                         if (affectedRows > 0){
-                            try (ResultSet rs = stmt.getGeneratedKeys()){
+                            ResultSet rs = stmt.getGeneratedKeys();
                                 if (rs.next()){
                                     id = rs.getLong(1);
                                 }
-                            } catch (SQLException ex){
-                                System.out.println(ex.getMessage());
-                            }
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return id;
                 }, executionContext
@@ -61,13 +59,13 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
     public CompletionStage<Void> eliminar(Long id) {
         return CompletableFuture.runAsync(
                 () -> {
-                    String SQL = "DELETE FROM public.factura " +
+                    String sql = "DELETE FROM public.factura " +
                             "WHERE id = " + id.toString();
                     try (Connection connection = db.getConnection()){
-                        PreparedStatement stmt = connection.prepareStatement(SQL);
+                        PreparedStatement stmt = connection.prepareStatement(sql);
                         stmt.execute();
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                 }, executionContext
         );
@@ -77,12 +75,12 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
     public CompletionStage<Boolean> existePorIdJugador(Long idJugador) {
         return CompletableFuture.supplyAsync(
                 () -> {
-                    String SQL = "SELECT COUNT(*) FROM public.factura " +
+                    String sql = "SELECT COUNT(*) FROM public.factura " +
                             "WHERE CAST(fecha_caducidad AS DATE) >= CAST(now() AS DATE) " +
                             "AND CAST (fecha_ingreso AS DATE) <= CAST(now() AS DATE) AND " +
                             "jugador = ?";
                     try (Connection connection = db.getConnection()){
-                        PreparedStatement stmt = connection.prepareStatement(SQL);
+                        PreparedStatement stmt = connection.prepareStatement(sql);
                         stmt.setLong(1, idJugador);
                         ResultSet rs = stmt.executeQuery();
                         int cantidad = 0;
@@ -93,7 +91,7 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
                             return true;
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return false;
                 }, executionContext
@@ -104,10 +102,10 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
     public CompletionStage<Boolean> existePorId(Long id) {
         return CompletableFuture.supplyAsync(
                 () -> {
-                    String SQL = "SELECT COUNT(*) FROM public.factura " +
+                    String sql = "SELECT COUNT(*) FROM public.factura " +
                             "WHERE id = ?";
                     try (Connection connection = db.getConnection()){
-                        PreparedStatement stmt = connection.prepareStatement(SQL);
+                        PreparedStatement stmt = connection.prepareStatement(sql);
                         stmt.setLong(1, id);
                         ResultSet rs = stmt.executeQuery();
                         int cantidad = 0;
@@ -118,7 +116,7 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
                             return true;
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return false;
                 }, executionContext
@@ -126,7 +124,6 @@ public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
     }
 
     private Timestamp convertir (LocalDate fecha){
-        Timestamp timestamp = Timestamp.valueOf(fecha.atStartOfDay());
-        return timestamp;
+        return Timestamp.valueOf(fecha.atStartOfDay());
     }
 }

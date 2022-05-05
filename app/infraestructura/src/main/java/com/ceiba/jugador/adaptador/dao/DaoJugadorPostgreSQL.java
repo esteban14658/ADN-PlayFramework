@@ -3,6 +3,7 @@ package infraestructura.src.main.java.com.ceiba.jugador.adaptador.dao;
 import com.typesafe.config.Config;
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoJugador;
 import dominio.src.main.java.com.ceiba.jugador.puerto.dao.DaoJugador;
+import excepciones.MalaPeticionExcepcion;
 import persistencia.DatabaseExecutionContext;
 import play.db.Database;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.CompletionStage;
 
 public class DaoJugadorPostgreSQL implements DaoJugador {
 
+    public static final String SELECT_FROM_PUBLIC_JUGADOR = "SELECT * FROM public.jugador ";
     private final Database db;
     private final Config config;
     private final DatabaseExecutionContext executionContext;
@@ -40,11 +42,10 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                         String query = "SELECT * FROM public.jugador";
                         ResultSet rs = stmt.executeQuery(query);
                         while (rs.next()){
-                            System.out.println("Mira: " + rs.getString("nombre"));
                             list.add(new MapeoJugador().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext
@@ -58,17 +59,15 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                 () -> {
                     try (Connection connection = db.getConnection()){
                         Statement stmt = connection.createStatement();
-                        String query = "SELECT * FROM public.jugador " +
+                        String query = SELECT_FROM_PUBLIC_JUGADOR +
                                 "WHERE posicion = '" + posicion + "'";
                         ResultSet rs = stmt.executeQuery(query);
                         while (rs.next()){
-                            System.out.println("Mira: " + rs.getString("nombre"));
                             list.add(new MapeoJugador().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
-                    System.out.println("Cantidad de datos: " + list.size());
                     return list;
                 }, executionContext
         );
@@ -94,7 +93,7 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                             list.add(new MapeoJugador().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext
@@ -108,8 +107,7 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                 () -> {
                     try (Connection connection = db.getConnection()){
                         Statement stmt = connection.createStatement();
-                        String query = "SELECT *\n" +
-                                "FROM public.jugador\n" +
+                        String query = SELECT_FROM_PUBLIC_JUGADOR +
                                 "WHERE NOT EXISTS(\n" +
                                 "SELECT asistencia.id  FROM public.asistencia\n" +
                                 "WHERE asistencia.jugador = jugador.id and\n" +
@@ -120,7 +118,7 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                             list.add(new MapeoJugador().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext
@@ -134,14 +132,14 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                 () -> {
                     try (Connection connection = db.getConnection()){
                         Statement stmt = connection.createStatement();
-                        String query = "SELECT * FROM public.jugador " +
+                        String query = SELECT_FROM_PUBLIC_JUGADOR +
                                 "WHERE EXTRACT(YEAR FROM DATE (fecha_nacimiento)) = '" + categoria + "'";
                         ResultSet rs = stmt.executeQuery(query);
                         while (rs.next()){
                             list.add(new MapeoJugador().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext
@@ -155,18 +153,16 @@ public class DaoJugadorPostgreSQL implements DaoJugador {
                     DtoJugador dtoJugador = new DtoJugador();
                     try (Connection connection = db.getConnection()){
                         Statement stmt = connection.createStatement();
-                        String query = "SELECT * FROM public.jugador " +
+                        String query = SELECT_FROM_PUBLIC_JUGADOR +
                                 "WHERE documento = " + documento.toString();
                         ResultSet rs = stmt.executeQuery(query);
                         while (rs.next()){
-                            System.out.println("Mira: " + rs.getString("nombre"));
                             dtoJugador = new MapeoJugador().mapRow(rs);
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
-                    Optional<DtoJugador> optional = Optional.of(dtoJugador);
-                    return optional;
+                    return Optional.of(dtoJugador);
                 }, executionContext
         );
     }

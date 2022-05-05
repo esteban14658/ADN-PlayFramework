@@ -59,10 +59,10 @@ public class ServicioCrearFactura {
     @SneakyThrows
     private void validarExistenciaPrevia(Factura factura) {
         Boolean existe = this.repositorioFactura.existePorIdJugador(factura.getJugador().getId())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.TRUE.equals(existe)){
             throw new DuplicidadExcepcion(YA_TIENE_UNA_FACTURA_ASIGNADA);
         }
     }
@@ -70,10 +70,10 @@ public class ServicioCrearFactura {
     @SneakyThrows
     private void validarExisteElJugador(Factura factura) {
         Boolean existe = this.repositorioJugador.existePorId(factura.getJugador().getId())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (!existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.FALSE.equals(existe)){
             throw new NoSeEncuentraExcepcion(EL_JUGADOR_NO_SE_ENCUENTRA_REGISTRADO);
         }
     }

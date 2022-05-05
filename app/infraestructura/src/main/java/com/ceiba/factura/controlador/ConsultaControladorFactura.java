@@ -34,8 +34,8 @@ public class ConsultaControladorFactura extends Controller {
     }
 
     public CompletionStage<Result> listarJugadorSinFactura(){
-        return this.manejadorListarJugadoresSinFactura.ejecutar().thenApplyAsync(resultado -> {
-            return ok(Json.toJson(resultado));
-        }, ec.current());
+        return this.manejadorListarJugadoresSinFactura.ejecutar().thenApplyAsync(resultado ->
+            ok(Json.toJson(resultado))
+        , ec.current());
     }
 }

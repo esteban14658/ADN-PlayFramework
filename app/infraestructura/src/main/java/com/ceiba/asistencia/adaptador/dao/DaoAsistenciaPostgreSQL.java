@@ -2,6 +2,7 @@ package infraestructura.src.main.java.com.ceiba.asistencia.adaptador.dao;
 
 import dominio.src.main.java.com.ceiba.asistencia.modelo.dto.DtoAsistencia;
 import dominio.src.main.java.com.ceiba.asistencia.puerto.dao.DaoAsistencia;
+import excepciones.MalaPeticionExcepcion;
 import persistencia.DatabaseExecutionContext;
 import play.db.Database;
 
@@ -40,7 +41,7 @@ public class DaoAsistenciaPostgreSQL implements DaoAsistencia {
                             list.add(new MapeoAsistencia().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext

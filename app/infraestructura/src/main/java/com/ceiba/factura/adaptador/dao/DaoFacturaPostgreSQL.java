@@ -2,6 +2,7 @@ package infraestructura.src.main.java.com.ceiba.factura.adaptador.dao;
 
 import dominio.src.main.java.com.ceiba.factura.modelo.dto.DtoFactura;
 import dominio.src.main.java.com.ceiba.factura.puerto.dao.DaoFactura;
+import excepciones.MalaPeticionExcepcion;
 import persistencia.DatabaseExecutionContext;
 import play.db.Database;
 
@@ -42,7 +43,7 @@ public class DaoFacturaPostgreSQL implements DaoFactura {
                             list.add(new MapeoFactura().mapRow(rs));
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new MalaPeticionExcepcion(e.getMessage());
                     }
                     return list;
                 }, executionContext

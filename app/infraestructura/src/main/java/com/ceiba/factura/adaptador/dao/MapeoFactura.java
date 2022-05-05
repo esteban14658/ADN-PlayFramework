@@ -11,15 +11,15 @@ import java.time.LocalDate;
 public class MapeoFactura {
 
     public DtoFactura mapRow(ResultSet rs) throws SQLException {
-        DtoFactura record = new DtoFactura();
-        record.setId(rs.getLong("id"));
-        record.setValor(rs.getInt("valor"));
-        record.setFechaIngreso(extraerLocalDate(rs, "fecha_ingreso"));
-        record.setFechaCaducidad(extraerLocalDate(rs, "fecha_caducidad"));
-        record.setJugador(new MapeoJugador().mapRow(rs));
-        record.setEstado(rs.getInt("estado"));
-        record.setDescripcion(rs.getString("descripcion"));
-        return record;
+        DtoFactura dtoFactura = new DtoFactura();
+        dtoFactura.setId(rs.getLong("id"));
+        dtoFactura.setValor(rs.getInt("valor"));
+        dtoFactura.setFechaIngreso(extraerLocalDate(rs, "fecha_ingreso"));
+        dtoFactura.setFechaCaducidad(extraerLocalDate(rs, "fecha_caducidad"));
+        dtoFactura.setJugador(new MapeoJugador().mapRow(rs));
+        dtoFactura.setEstado(rs.getInt("estado"));
+        dtoFactura.setDescripcion(rs.getString("descripcion"));
+        return dtoFactura;
     }
 
     private LocalDate extraerLocalDate(ResultSet resultSet, String label) throws SQLException {

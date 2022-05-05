@@ -1,7 +1,6 @@
 package dominio.src.main.java.com.ceiba.factura.modelo.dto;
 
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoJugador;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

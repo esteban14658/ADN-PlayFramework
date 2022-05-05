@@ -40,8 +40,8 @@ public class ComandoControladorFactura extends Controller {
     }
 
     public CompletionStage<Result> eliminar(String id){
-        return this.manejadorEliminarFactura.ejecutar(Long.parseLong(id)).thenApplyAsync(res -> {
-            return noContent();
-        }, ec.current());
+        return this.manejadorEliminarFactura.ejecutar(Long.parseLong(id)).thenApplyAsync(res ->
+             noContent()
+        , ec.current());
     }
 }

@@ -52,20 +52,20 @@ public class ConsultaControladorJugador extends Controller {
     }
 
     public CompletionStage<Result> listarPorCategoria(String fecha){
-        return this.manejadorListarJugadoresPorCategoria.ejecutar(fecha).thenApplyAsync(resultado -> {
-            return ok(Json.toJson(resultado));
-        }, ec.current());
+        return this.manejadorListarJugadoresPorCategoria.ejecutar(fecha).thenApplyAsync(resultado ->
+            ok(Json.toJson(resultado))
+        , ec.current());
     }
 
     public CompletionStage<Result> listarJugadoresSinAsistencia(){
-        return this.manejadorListarJugadoresSinAsistencia.ejecutar().thenApplyAsync(resultado -> {
-            return ok(Json.toJson(resultado));
-        }, ec.current());
+        return this.manejadorListarJugadoresSinAsistencia.ejecutar().thenApplyAsync(resultado ->
+            ok(Json.toJson(resultado))
+        , ec.current());
     }
 
     public CompletionStage<Result> obtenerPorDocumento(String documento){
-        return this.manejadorObtenerPorDocumentoJugador.ejecutar(Long.parseLong(documento)).thenApplyAsync(resultado -> {
-            return ok(Json.toJson(resultado.get()));
-        }, ec.current());
+        return this.manejadorObtenerPorDocumentoJugador.ejecutar(Long.parseLong(documento)).thenApplyAsync(resultado ->
+            ok(Json.toJson(resultado.get()))
+        , ec.current());
     }
 }

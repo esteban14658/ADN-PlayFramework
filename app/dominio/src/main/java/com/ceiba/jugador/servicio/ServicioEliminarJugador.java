@@ -28,10 +28,10 @@ public class ServicioEliminarJugador {
     @SneakyThrows
     private void validarExistenciaDeFactura(Long id){
         Boolean existe = this.repositorioJugador.existeJugadorConFactura(id)
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.TRUE.equals(existe)){
             throw new DuplicidadExcepcion(NO_PUEDE_ELIMINAR_UN_JUGADOR_CON_FACTURA_PREVIA);
         }
     }
@@ -39,10 +39,10 @@ public class ServicioEliminarJugador {
     @SneakyThrows
     private void validarExistenciaDeAsistencia(Long id){
         Boolean existe = this.repositorioJugador.existeJugadorConAsistencias(id)
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (existe){
+                .thenApplyAsync(r ->
+                    r
+                ).toCompletableFuture().get();
+        if (Boolean.TRUE.equals(existe)){
             throw new DuplicidadExcepcion(NO_SE_PUEDE_ELIMINAR_UN_JUGADOR_CON_ASISTENCIAS_PREVIAS);
         }
     }

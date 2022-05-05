@@ -27,10 +27,10 @@ public class ServicioActualizarJugador {
     @SneakyThrows
     private void validarExistenciaPrevia(Jugador jugador){
         Boolean existe = this.repositorioJugador.existePorDocumento(jugador.getDocumento())
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (!existe){
+                .thenApplyAsync(r ->
+                     r
+                ).toCompletableFuture().get();
+        if (Boolean.FALSE.equals(existe)){
             throw new NoSeEncuentraExcepcion(EL_JUGADOR_NO_EXISTE_EN_EL_SISTEMA);
         }
     }

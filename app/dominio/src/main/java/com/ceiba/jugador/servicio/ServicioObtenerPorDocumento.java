@@ -9,7 +9,6 @@ import lombok.SneakyThrows;
 import javax.inject.Inject;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 
 public class ServicioObtenerPorDocumento {
 
@@ -32,10 +31,8 @@ public class ServicioObtenerPorDocumento {
     @SneakyThrows
     private void validarExistenciaPrevia(Long documento) {
         Boolean existe = this.repositorioJugador.existePorDocumento(documento)
-                .thenApplyAsync(r -> {
-                    return r;
-                }).toCompletableFuture().get();
-        if (!existe){
+                .thenApplyAsync(r -> r).toCompletableFuture().get();
+        if (Boolean.FALSE.equals(existe)){
             throw new NoSeEncuentraExcepcion(EL_JUGADOR_NO_EXISTE_EN_EL_SISTEMA);
         }
     }
