@@ -19,9 +19,9 @@ import java.util.concurrent.CompletionStage;
 
 public class DaoJugadorPostgreSQL implements DaoJugador {
 
-    private Database db;
-    private Config config;
-    private DatabaseExecutionContext executionContext;
+    private final Database db;
+    private final Config config;
+    private final DatabaseExecutionContext executionContext;
 
     @Inject
     public DaoJugadorPostgreSQL(Database db, Config config, DatabaseExecutionContext executionContext) {

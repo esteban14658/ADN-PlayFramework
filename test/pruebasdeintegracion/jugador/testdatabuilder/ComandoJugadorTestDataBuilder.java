@@ -1,25 +1,26 @@
 package pruebasdeintegracion.jugador.testdatabuilder;
 
 import aplicacion.src.main.java.com.ceiba.jugador.comando.ComandoJugador;
+import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
 
 public class ComandoJugadorTestDataBuilder {
-
+    private static Faker faker = new Faker();
     private Long id;
-    private Long documento;
-    private String nombre;
-    private String apellido;
-    private LocalDate fechaNacimiento;
-    private float peso;
-    private float altura;
-    private String posicion;
-    private String pieHabil;
+    private final Long documento;
+    private final String nombre;
+    private final String apellido;
+    private final LocalDate fechaNacimiento;
+    private final float peso;
+    private final float altura;
+    private final String posicion;
+    private final String pieHabil;
 
     public ComandoJugadorTestDataBuilder() {
-        documento = Long.valueOf(10101010);
-        nombre = "Juanito";
-        apellido = "Alimaña";
+        documento = faker.random().nextLong(999999999);
+        nombre = faker.name().name();
+        apellido = faker.name().lastName();
         fechaNacimiento = LocalDate.parse("2022-02-14");
         peso = (float) 54.6;
         altura = (float) 1.65;

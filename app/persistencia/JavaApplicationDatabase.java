@@ -14,7 +14,7 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 class JavaApplicationDatabase {
 
-    private Database db;
+    private final Database db;
     private DatabaseExecutionContext executionContext;
 
     @Inject

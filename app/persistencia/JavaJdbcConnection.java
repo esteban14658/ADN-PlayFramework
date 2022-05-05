@@ -9,8 +9,8 @@ import java.util.concurrent.CompletionStage;
 
 public class JavaJdbcConnection {
 
-    private Database db;
-    private DatabaseExecutionContext executionContext;
+    private final Database db;
+    private final DatabaseExecutionContext executionContext;
 
     @Inject
     public JavaJdbcConnection(Database db, DatabaseExecutionContext executionContext) {

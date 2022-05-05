@@ -16,8 +16,8 @@ import java.util.concurrent.CompletionStage;
 
 public class RepositorioJugadorPostgreSQL implements RepositorioJugador {
 
-    private Database db;
-    private DatabaseExecutionContext executionContext;
+    private final Database db;
+    private final DatabaseExecutionContext executionContext;
 
     @Inject
     public RepositorioJugadorPostgreSQL(Database db, DatabaseExecutionContext executionContext) {

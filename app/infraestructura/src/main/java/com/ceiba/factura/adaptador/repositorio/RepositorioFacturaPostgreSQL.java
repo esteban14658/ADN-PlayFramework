@@ -13,8 +13,8 @@ import java.util.concurrent.CompletionStage;
 
 public class RepositorioFacturaPostgreSQL implements RepositorioFactura {
 
-    private Database db;
-    private DatabaseExecutionContext executionContext;
+    private final Database db;
+    private final DatabaseExecutionContext executionContext;
 
     @Inject
     public RepositorioFacturaPostgreSQL(Database db, DatabaseExecutionContext executionContext) {

@@ -4,8 +4,8 @@ import javax.inject.Inject;
 
 public class PlatformException extends Exception{
 
-    private String message;
-    private String errorCode;
+    private final String message;
+    private final String errorCode;
 
     @Inject
     public PlatformException(String message, String errorCode) {

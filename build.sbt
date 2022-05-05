@@ -23,7 +23,8 @@ lazy val root = (project in file("."))
       "org.awaitility" % "awaitility" % "4.0.1" % "test",
       "org.assertj" % "assertj-core" % "3.14.0" % "test",
       "junit" % "junit" % "4.12" % "test",
-      "com.novocode" % "junit-interface" % "0.11" % "test"
+      "com.novocode" % "junit-interface" % "0.11" % "test",
+      "com.github.javafaker" % "javafaker" % "1.0.2"
     ),
     Test / testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-v")
   )

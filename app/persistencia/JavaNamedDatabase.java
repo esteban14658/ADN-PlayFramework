@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 @Singleton
 public class JavaNamedDatabase {
 
-    private Database db;
-    private DatabaseExecutionContext executionContext;
+    private final Database db;
+    private final DatabaseExecutionContext executionContext;
 
     @Inject
     public JavaNamedDatabase(

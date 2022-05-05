@@ -1,6 +1,5 @@
 package infraestructura.src.main.java.com.ceiba.jugador.adaptador.dao;
 
-import dominio.modelos.JugadorDTO;
 import dominio.src.main.java.com.ceiba.jugador.modelo.dto.DtoJugador;
 
 import java.sql.ResultSet;
